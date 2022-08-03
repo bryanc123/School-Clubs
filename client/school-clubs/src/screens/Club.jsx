@@ -6,14 +6,14 @@ const Club = () => {
     let { id } = useParams();
 
     useEffect(() => {
-        fetch( `http://localhost:5000/clubs/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                setClub(data);
-            });
-    }, [id]);
+        const fetchClub = async () => {
+            const response = await fetch( `http://localhost:5000/clubs/${id}`)
+            const data = await response.json();
+            setClub(data);
+        }
 
-    console.log(club.location);
+        fetchClub();
+    }, []);
 
     return (
         <section className="club">
@@ -21,7 +21,7 @@ const Club = () => {
             <h2>{club.name} Club</h2>
             <div className="club-description">
                 <p>Description: {club.description}</p>
-                {/* <p>Location: Room {club.location.room} in Building {club.location.building}</p> */}
+                <p>Location: Room {club.location?.room || null} in Building {club.location?.building || null}</p>
             </div>
             </div>
         </section>
